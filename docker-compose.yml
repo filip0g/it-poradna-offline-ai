@@ -1,0 +1,19 @@
+version: '3'
+services:
+  ollama:
+    image: ollama/ollama
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: always
+
+  webapp:
+    build: .
+    ports:
+      - "8081:8081"
+    depends_on:
+      - ollama
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+
+volumes:
+  ollama_data:

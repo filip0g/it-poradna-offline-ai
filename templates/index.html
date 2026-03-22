@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IT Poradna</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; background-color: #f0f0f0; }
+        .chat-box { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        input { width: 70%; padding: 10px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        #odpoved { margin-top: 20px; padding: 10px; border-left: 4px solid #007bff; background: #e9ecef; display: none; }
+    </style>
+</head>
+<body>
+    <div class="chat-box">
+        <h1>🤖 IT Poradna</h1>
+        <p>Zeptej se umělé inteligence na cokoliv z IT:</p>
+        <input type="text" id="dotaz" placeholder="Např. Co je to IP adresa?">
+        <button onclick="odeslat()">Zeptat se</button>
+        <div id="odpoved"></div>
+    </div>
+
+    <script>
+        async function odeslat() {
+            const text = document.getElementById('dotaz').value;
+            const vystup = document.getElementById('odpoved');
+            vystup.style.display = 'block';
+            vystup.innerText = "Přemýšlím...";
+            
+            const response = await fetch('/ai', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({prompt: text})
+            });
+            
+            const data = await response.json();
+            vystup.innerText = data.answer || data.error;
+        }
+    </script>
+</body>
+</html>
