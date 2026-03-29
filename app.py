@@ -77,7 +77,7 @@ def ask_ai():
                 }
             }
 
-            response = requests.post(url, json=payload)
+            response = requests.post(url, json=payload, verify=False)
             if response.status_code == 200:
                 return jsonify({"answer": response.json().get('response', 'Chyba AI')})
             else:
