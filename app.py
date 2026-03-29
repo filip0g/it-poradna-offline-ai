@@ -32,13 +32,9 @@ def ask_ai():
         # ---------------------------------------------------------
         # VÝHYBKA 1: REŽIM UČITEL (Jsme nasazeni na jeho serveru)
         # ---------------------------------------------------------
-        if api_key and base_url:
-            # Ujistime se, ze adresa konci spravne pro chat
-            if not base_url.endswith("/chat/completions"):
-                url = f"{base_url}/chat/completions"
-            else:
-                url = base_url
-
+       if api_key and base_url:
+            url = "https://kurim.ithope.eu/v1/chat/completions"
+           
             headers = {
                 "Authorization": f"Bearer {api_key}",
                 "Content-Type": "application/json"
