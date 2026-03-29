@@ -54,7 +54,7 @@ def ask_ai():
                 "max_tokens": 150
             }
             
-            response = requests.post(url, headers=headers, json=payload)
+            response = requests.post(url, headers=headers, json=payload, verify=False)
             if response.status_code == 200:
                 answer = response.json().get('choices', [{}])[0].get('message', {}).get('content', 'Chyba AI')
                 return jsonify({"answer": answer})
