@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 import requests
 import datetime
-import os  # PRIDANO: pro cteni ucitelskych promennych a portu
+import os
 
 app = Flask(__name__)
 
@@ -32,9 +32,9 @@ def ask_ai():
         # ---------------------------------------------------------
         # VÝHYBKA 1: REŽIM UČITEL (Jsme nasazeni na jeho serveru)
         # ---------------------------------------------------------
-       if api_key and base_url:
+        if api_key and base_url:
             url = "https://kurim.ithope.eu/v1/chat/completions"
-           
+            
             headers = {
                 "Authorization": f"Bearer {api_key}",
                 "Content-Type": "application/json"
@@ -96,6 +96,5 @@ def status():
    }), 200
 
 if __name__ == '__main__':
-    # ZMENA: Port se ted bere automaticky od ucitele. Kdyz tam neni (jsi doma), pouzije 8081.
     port = int(os.environ.get("PORT", 8081))
     app.run(host='0.0.0.0', port=port)
