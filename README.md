@@ -40,6 +40,28 @@ Spustit příkaz: sudo docker-compose up -d
 
 Aplikace bude po chvíli dostupná ve webovém prohlížeči. V izolované síti zadejte: http://turonfilip.skola.test:8081
 
+Důležité příkazy pro kontrolu stavu:
+
+· Běží kontejnery s webem a AI? -> sudo docker ps
+
+· Běží přidělování adres (DHCP)? -> sudo systemctl status isc-dhcp-server
+
+· Běží překlad domén (DNS)? -> sudo systemctl status bind9
+
+Cesty k nejdůležitějším konfiguračním souborům:
+
+· Kód aplikace: ~/it-poradna/app.py
+
+· Nastavení kontejnerů: ~/it-poradna/docker-compose.yml
+
+· Nastavení DHCP rozsahu: /etc/dhcp/dhcpd.conf
+
+· Konfigurace DNS zóny: /etc/bind/named.conf.local
+
+· Záznamy DNS (IP k doméně): /etc/bind/db.skola.test
+
+· Pevná IP Serveru: /etc/netplan/00-installer-config.yaml
+
 Kontrolní endpointy:
 
 /ping - Vrací text "pong" pro ověření chodu aplikace.
