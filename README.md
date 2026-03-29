@@ -34,7 +34,7 @@ Projekt je plně zautomatizován pomocí Docker Compose. Pro spuštění stačí
 
 Naklonovat nebo stáhnout tento repozitář.
 
-V terminálu přejít do složky s projektem.
+V terminálu přejít do složky s projektem. = cd ~/it-poradna
 
 Spustit příkaz: sudo docker-compose up -d
 
