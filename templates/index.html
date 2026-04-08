@@ -5,151 +5,137 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IT Poradna AI</title>
     <style>
-        /* Celkove pozadi a pismo */
         body {
             background-color: #121212;
             color: #e0e0e0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
             margin: 0;
+            padding: 40px 20px;
         }
-        /* Hlavni okno chatu */
-        #chat-container {
-            width: 95%;
+        #app-container {
+            width: 100%;
             max-width: 800px;
             background: #1e1e1e;
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0, 255, 136, 0.15);
-            display: flex;
-            flex-direction: column;
-            height: 85vh;
             border: 1px solid #333;
+            overflow: hidden;
         }
-        /* Hlavicka */
         #header {
             background: linear-gradient(135deg, #00ff88, #00b3ff);
             color: #121212;
-            padding: 15px;
+            padding: 20px;
             text-align: center;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
             font-weight: bold;
-            font-size: 1.2em;
+            font-size: 1.5em;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
-        /* Prostor pro zpravy */
-        #chat-box {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        #query-section {
+            padding: 30px;
+            background: #1a1a1a;
+            border-bottom: 1px solid #333;
         }
-        /* Spolecny styl pro bubliny */
-        .message {
-            max-width: 80%;
-            padding: 12px 18px;
-            border-radius: 20px;
-            line-height: 1.5;
-            word-wrap: break-word;
-            font-size: 15px;
-        }
-        /* Zprava od uzivatele */
-        .user-msg {
-            align-self: flex-end;
-            background: #00b3ff;
-            color: white;
-            border-bottom-right-radius: 2px;
-            box-shadow: 0 4px 10px rgba(0, 179, 255, 0.2);
-        }
-        /* Zprava od AI */
-        .ai-msg {
-            align-self: flex-start;
-            background: #2d2d2d;
-            color: #00ff88;
-            border: 1px solid #444;
-            border-bottom-left-radius: 2px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-        /* Indikator nacitani */
-        .loading {
-            color: #888;
-            font-style: italic;
+        .label {
             font-size: 0.9em;
-            align-self: flex-start;
+            color: #888;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+        #user-input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 15px;
+            border: 2px solid #2d2d2d;
+            border-radius: 8px;
+            background: #121212;
+            color: #00ff88;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+            margin-bottom: 15px;
+        }
+        #user-input:focus {
+            border-color: #00ff88;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+        }
+        button {
+            width: 100%;
+            background: #00ff88;
+            color: #121212;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: 0.2s;
+            text-transform: uppercase;
+        }
+        button:hover {
+            background: #00cc6a;
+            transform: scale(1.02);
+        }
+        #result-section {
+            padding: 30px;
+            min-height: 150px;
+        }
+        #answer-box {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #00b3ff;
+            font-size: 16px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            transition: 0.3s;
+        }
+        .loading {
+            color: #00ff88;
+            font-style: italic;
             animation: pulse 1.5s infinite;
+        }
+        .question-echo {
+            color: #00b3ff;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #444;
         }
         @keyframes pulse {
             0% { opacity: 0.5; }
             50% { opacity: 1; }
             100% { opacity: 0.5; }
         }
-        /* Spodni lista pro zadavani */
-        #input-area {
-            display: flex;
-            padding: 15px;
-            background: #1a1a1a;
-            border-bottom-left-radius: 15px;
-            border-bottom-right-radius: 15px;
-            border-top: 1px solid #333;
-        }
-        /* Textove pole */
-        #user-input {
-            flex: 1;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            background: #2d2d2d;
-            color: white;
-            outline: none;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-        #user-input:focus {
-            box-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
-        }
-        /* Tlacitko Odeslat */
-        button {
-            background: #00ff88;
-            color: #121212;
-            border: none;
-            padding: 0 25px;
-            margin-left: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
-            transition: 0.2s;
-        }
-        button:hover {
-            background: #00cc6a;
-            transform: scale(1.05);
-        }
     </style>
 </head>
 <body>
 
-<div id="chat-container">
+<div id="app-container">
     <div id="header">🤖 IT Poradna AI</div>
-    <div id="chat-box">
-        <div class="message ai-msg">Systém online. Jsem tvůj striktní IT specialista. Zeptej se mě na cokoliv ohledně sítí, hardwaru nebo programování. 💻</div>
+    
+    <div id="query-section">
+        <div class="label">Zadej nový technický dotaz:</div>
+        <input type="text" id="user-input" placeholder="Např.: Jaký je rozdíl mezi TCP a UDP?" onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()">Zjistit odpověď</button>
     </div>
-    <div id="input-area">
-        <input type="text" id="user-input" placeholder="Zadej svůj IT dotaz a stiskni Enter..." onkeypress="handleKeyPress(event)">
-        <button onclick="sendMessage()">Odeslat</button>
+
+    <div id="result-section">
+        <div class="label">Odpověď systému:</div>
+        <div id="answer-box">
+            Systém je připraven. Zadej dotaz výše.
+        </div>
     </div>
 </div>
 
 <script>
-    const chatBox = document.getElementById("chat-box");
+    const answerBox = document.getElementById("answer-box");
     const userInput = document.getElementById("user-input");
 
-    // Odeslani pomoci klavesy Enter
     function handleKeyPress(event) {
         if (event.key === "Enter") {
             sendMessage();
@@ -160,16 +146,11 @@
         const text = userInput.value.trim();
         if (!text) return;
 
-        // Vykresleni uzivatelovy zpravy
-        addMessage(text, "user-msg");
-        userInput.value = "";
-
-        // Pridani indikatoru nacitani, nez AI odpovi
-        const loadingId = "loading-" + Date.now();
-        addMessage("AI zpracovává odpověď...", "loading", loadingId);
+        // Vizualni zmena pri nacitani
+        answerBox.innerHTML = '<span class="loading">Navazuji spojení s AI... Zpracovávám dotaz...</span>';
+        answerBox.style.borderLeftColor = "#00ff88"; 
 
         try {
-            // Komunikace s tvym Python backendem (app.py)
             const response = await fetch('/ai', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -178,30 +159,19 @@
             
             const data = await response.json();
             
-            // Odstraneni indikatoru nacitani
-            document.getElementById(loadingId).remove();
-
             if (response.ok) {
-                // Vykresleni odpovedi od AI
-                addMessage(data.answer, "ai-msg");
+                // Vymazeme pole pro dalsi dotaz a vypiseme vysledek
+                userInput.value = "";
+                answerBox.style.borderLeftColor = "#00b3ff";
+                answerBox.innerHTML = `<div class="question-echo"><strong>Tvůj dotaz:</strong> ${text}</div><div>${data.answer}</div>`;
             } else {
-                addMessage("❌ Chyba: " + (data.error || "Něco se pokazilo na serveru."), "ai-msg");
+                answerBox.innerText = "❌ Chyba: " + (data.error || "Něco se pokazilo na serveru.");
+                answerBox.style.borderLeftColor = "red";
             }
         } catch (error) {
-            document.getElementById(loadingId).remove();
-            addMessage("❌ Chyba připojení k backendu.", "ai-msg");
+            answerBox.innerText = "❌ Chyba připojení k backendu.";
+            answerBox.style.borderLeftColor = "red";
         }
-    }
-
-    // Pomocna funkce pro vytvareni bublin v chatu
-    function addMessage(text, className, id = null) {
-        const msgDiv = document.createElement("div");
-        msgDiv.className = "message " + className;
-        msgDiv.innerText = text;
-        if (id) msgDiv.id = id;
-        chatBox.appendChild(msgDiv);
-        // Automaticky srolovat dolu
-        chatBox.scrollTop = chatBox.scrollHeight;
     }
 </script>
 
