@@ -99,7 +99,7 @@
         
         /* === SPECIFICKÉ STYLY PRO MARKDOWN A KÓD === */
         #answer-box h1, #answer-box h2, #answer-box h3 {
-            font-size: 1.2em; /* Zkrocení gigantických nadpisů */
+            font-size: 1.2em;
             color: #00ff88;
             margin-top: 20px;
             margin-bottom: 10px;
@@ -153,7 +153,7 @@
 <body>
 
 <div id="app-container">
-    <div id="header"> IT Poradna AI</div>
+    <div id="header">🤖 IT Poradna AI</div>
     
     <div id="query-section">
         <div class="label">Zadej nový technický dotaz:</div>
@@ -202,7 +202,14 @@
                 // ZDE JE TO KOUZLO: marked.parse() prevadi AI format na krasne HTML
                 const formattedAnswer = marked.parse(data.answer);
                 
-                answerBox.innerHTML = `<div class="question-echo"><strong>Tvůj dotaz:</strong> ${text}</div><div>${formattedAnswer}</div>`;
+                // NOVÉ: Přidán výpis z Redis databáze na konec odpovědi
+                answerBox.innerHTML = `
+                    <div class="question-echo"><strong>Tvůj dotaz:</strong> ${text}</div>
+                    <div>${formattedAnswer}</div>
+                    <div style="margin-top: 20px; font-size: 0.8em; color: #888; border-top: 1px solid #333; padding-top: 10px;">
+                        🤖 Databáze Redis: Tento server už zodpověděl ${data.db_count || "0"} dotazů.
+                    </div>
+                `;
             } else {
                 answerBox.innerText = "❌ Chyba: " + (data.error || "Něco se pokazilo na serveru.");
                 answerBox.style.borderLeftColor = "red";
