@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  webapp:
+    build: .
+    ports:
+      - "8081:8081"
+    environment:
+      - PORT=8081
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:alpine
+    # Záměrně bez volumes, aby to prošlo učitelovým cloudem!
