@@ -6,6 +6,7 @@
     <title>IT Poradna AI</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
+        /* === ZÁKLADNÍ (TMAVÝ) REŽIM === */
         body {
             background-color: #121212;
             color: #e0e0e0;
@@ -15,6 +16,7 @@
             align-items: center;
             margin: 0;
             padding: 40px 20px;
+            transition: background-color 0.3s, color 0.3s;
         }
         #app-container {
             width: 100%;
@@ -24,8 +26,10 @@
             box-shadow: 0 0 20px rgba(0, 255, 136, 0.15);
             border: 1px solid #333;
             overflow: hidden;
+            transition: 0.3s;
         }
         #header {
+            position: relative; /* Přidáno kvůli tlačítku na motiv */
             background: linear-gradient(135deg, #00ff88, #00b3ff);
             color: #121212;
             padding: 20px;
@@ -35,10 +39,33 @@
             letter-spacing: 1px;
             text-transform: uppercase;
         }
+        
+        /* Tlačítko na přepínání motivu */
+        #theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: auto;
+            background: rgba(0, 0, 0, 0.2);
+            color: #121212;
+            border: 1px solid rgba(0,0,0,0.4);
+            padding: 5px 10px;
+            font-size: 0.6em;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: none;
+            transition: 0.3s;
+        }
+        #theme-toggle:hover {
+            background: rgba(0, 0, 0, 0.4);
+            transform: none;
+        }
+
         #query-section {
             padding: 30px;
             background: #1a1a1a;
             border-bottom: 1px solid #333;
+            transition: 0.3s;
         }
         .label {
             font-size: 0.9em;
@@ -65,7 +92,7 @@
             border-color: #00ff88;
             box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
         }
-        button {
+        button.action-btn {
             width: 100%;
             background: #00ff88;
             color: #121212;
@@ -78,7 +105,7 @@
             transition: 0.2s;
             text-transform: uppercase;
         }
-        button:hover {
+        button.action-btn:hover {
             background: #00cc6a;
             transform: scale(1.02);
         }
@@ -97,7 +124,6 @@
             overflow-x: auto;
         }
         
-        /* === SPECIFICKÉ STYLY PRO MARKDOWN A KÓD === */
         #answer-box h1, #answer-box h2, #answer-box h3 {
             font-size: 1.2em;
             color: #00ff88;
@@ -105,10 +131,6 @@
             margin-bottom: 10px;
             border-bottom: 1px solid #444;
             padding-bottom: 5px;
-        }
-        #answer-box p {
-            margin-top: 0;
-            margin-bottom: 15px;
         }
         #answer-box pre {
             background: #121212;
@@ -125,40 +147,74 @@
             border-radius: 4px;
             color: #00b3ff;
         }
-        #answer-box pre code {
-            background: transparent;
-            padding: 0;
-            color: #e0e0e0;
-        }
-        /* ========================================== */
+        #answer-box pre code { background: transparent; padding: 0; color: #e0e0e0; }
 
-        .loading {
-            color: #00ff88;
-            font-style: italic;
-            animation: pulse 1.5s infinite;
+        .loading { color: #00ff88; font-style: italic; animation: pulse 1.5s infinite; }
+        .question-echo { color: #00b3ff; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #444; }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+        /* ========================================== */
+        /* === SVĚTLÝ REŽIM (PŘEPIS BAREV) === */
+        /* ========================================== */
+        body.light-mode {
+            background-color: #f0f2f5;
+            color: #333333;
         }
-        .question-echo {
-            color: #00b3ff;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #444;
+        body.light-mode #app-container {
+            background: #ffffff;
+            border: 1px solid #ddd;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
         }
-        @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
+        body.light-mode #query-section {
+            background: #fafafa;
+            border-bottom: 1px solid #eee;
         }
+        body.light-mode #user-input {
+            background: #ffffff;
+            color: #333;
+            border: 2px solid #ccc;
+        }
+        body.light-mode #user-input:focus {
+            border-color: #00b3ff;
+            box-shadow: 0 0 10px rgba(0, 179, 255, 0.2);
+        }
+        body.light-mode #answer-box {
+            background: #f9f9f9;
+            color: #333;
+            border-left: 5px solid #00b3ff;
+        }
+        body.light-mode #answer-box pre {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+        }
+        body.light-mode #answer-box code {
+            background: #eaeaea;
+            color: #d14; /* Červená pro kód ve světlém režimu */
+        }
+        body.light-mode #answer-box pre code { color: #333; }
+        body.light-mode #answer-box h1, body.light-mode #answer-box h2, body.light-mode #answer-box h3 {
+            color: #0088cc;
+            border-bottom: 1px solid #ccc;
+        }
+        body.light-mode .question-echo {
+            color: #0088cc;
+            border-bottom: 1px solid #ccc;
+        }
+        body.light-mode .loading { color: #0088cc; }
     </style>
 </head>
 <body>
 
 <div id="app-container">
-    <div id="header">🤖 IT Poradna AI</div>
+    <div id="header">
+        🤖 IT Poradna AI
+        <button id="theme-toggle" onclick="toggleTheme()">☀️ Světlý režim</button>
+    </div>
     
     <div id="query-section">
         <div class="label">Zadej nový technický dotaz:</div>
         <input type="text" id="user-input" placeholder="Např.: Napiš mi ukázku HTML kódu" onkeypress="handleKeyPress(event)">
-        <button onclick="sendMessage()">Zjistit odpověď</button>
+        <button class="action-btn" onclick="sendMessage()">Zjistit odpověď</button>
     </div>
 
     <div id="result-section">
@@ -170,6 +226,28 @@
 </div>
 
 <script>
+    // === LOGIKA PRO PŘEPÍNÁNÍ MOTIVU ===
+    const body = document.body;
+    const themeBtn = document.getElementById("theme-toggle");
+
+    // Při načtení stránky zjistíme, co si uživatel uložil minule
+    if (localStorage.getItem("theme") === "light") {
+        body.classList.add("light-mode");
+        themeBtn.innerText = "🌙 Tmavý režim";
+    }
+
+    function toggleTheme() {
+        body.classList.toggle("light-mode");
+        if (body.classList.contains("light-mode")) {
+            localStorage.setItem("theme", "light"); // Uložíme do paměti prohlížeče
+            themeBtn.innerText = "🌙 Tmavý režim";
+        } else {
+            localStorage.setItem("theme", "dark");
+            themeBtn.innerText = "☀️ Světlý režim";
+        }
+    }
+    // ===================================
+
     const answerBox = document.getElementById("answer-box");
     const userInput = document.getElementById("user-input");
 
@@ -184,7 +262,9 @@
         if (!text) return;
 
         answerBox.innerHTML = '<span class="loading">Navazuji spojení s AI... Zpracovávám dotaz...</span>';
-        answerBox.style.borderLeftColor = "#00ff88"; 
+        
+        // Barva okraje při načítání se přizpůsobí podle toho, jaký je zrovna motiv
+        answerBox.style.borderLeftColor = body.classList.contains("light-mode") ? "#0088cc" : "#00ff88"; 
 
         try {
             const response = await fetch('/ai', {
@@ -199,14 +279,12 @@
                 userInput.value = "";
                 answerBox.style.borderLeftColor = "#00b3ff";
                 
-                // ZDE JE TO KOUZLO: marked.parse() prevadi AI format na krasne HTML
                 const formattedAnswer = marked.parse(data.answer);
                 
-                // NOVÉ: Přidán výpis z Redis databáze na konec odpovědi
                 answerBox.innerHTML = `
                     <div class="question-echo"><strong>Tvůj dotaz:</strong> ${text}</div>
                     <div>${formattedAnswer}</div>
-                    <div style="margin-top: 20px; font-size: 0.8em; color: #888; border-top: 1px solid #333; padding-top: 10px;">
+                    <div style="margin-top: 20px; font-size: 0.8em; color: #888; border-top: 1px solid ${body.classList.contains('light-mode') ? '#ccc' : '#333'}; padding-top: 10px;">
                         🤖 Databáze Redis: Tento server už zodpověděl ${data.db_count || "0"} dotazů.
                     </div>
                 `;
