@@ -45,7 +45,7 @@ requirements.txt – Seznam knihoven (Flask, requests, redis), které se musí n
 Varianta A (Učitelův Cloud)
 Tady stačí mít soubory na GitHubu. Portál si sám načte compose.yml, postaví aplikaci a připojí k ní Redis.
 
-URL: https://filip-0g.kurim.ithope.eu (nebo tvoje doména)
+URL: https://filip-0g.kurim.ithope.eu 
 
 Status: https://filip-0g.kurim.ithope.eu/status
 
